@@ -21,6 +21,9 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import Adafruit_DHT
+import RPi.GPIO as GPIO
+import subprocess
+import re
 
 #Variable Declaration
 #THconfig = ConfigParser()
@@ -83,14 +86,6 @@ def SendMailAttachment(ToAddress,FromAddress,Subject,text,USERNAME,PASSWORD,file
 			part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
 			msg.attach(part)
 
-
-	# for file in files:
-	# 	part = MIMEBase('application', "octet-stream")
-	# 	part.set_payload( open(file,"rb").read() )
-	# 	Encoders.encode_base64(part)
-	# 	part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
-	# 	msg.attach(part)
-
 	server = smtplib.SMTP('smtp.gmail.com:587')
 	server.ehlo_or_helo_if_needed()
 	server.starttls()
@@ -98,6 +93,22 @@ def SendMailAttachment(ToAddress,FromAddress,Subject,text,USERNAME,PASSWORD,file
 	server.login(USERNAME,PASSWORD)
 	server.sendmail(USERNAME, MAILTO, msg.as_string())
 	server.quit()
+
+def FindThisProcess(process_name):
+	ps = subprocess.Popen("ps -eaf|grep -v grep |grep "+process_name, shell=True, stdout=subprocess.PIPE)
+	output = ps.stdout.read()
+	ps.stdout.close()
+	ps.wait()
+	return output
+
+def IsRunning(process_name):
+	Toutput = FindThisProcess( process_name )
+	output = "%s" % (Toutput)
+	if re.search(process_name, output) is None:
+		return False
+	else:
+		return True
+
 
 
 

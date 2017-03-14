@@ -48,21 +48,27 @@ def CreateDataFile(temperature,humidity):
     target.write(output)
     target.close
 
-if args.debug == "Y":
-    print("The Temperature is {0:0.1f} inside the High Tunnel\n".format(temperature))
-    print("The Humidity is {0:0.1f}% inside the High Tunnel\n".format(humidity))
-    Body = "The Temperature is {0:0.1f} inside the High Tunnel\n The Humidity is {1:0.1f}% inside the High Tunnel\n".format(temperature,humidity)
-    #SendMail(To,Subject,Body)
-else:
-    if temperature > Max:
-        Body = "The Temperature is {0:0.1f} inside the High Tunnel raise the curtains\n The Humidity is {1:0.1f}% inside the High Tunnel\n".format(temperature,humidity)
-    elif temperature < Min:
-        #temperature = '{0:0.1f}'.format(temperature)
-        Body = "The Temperature is {0:0.1f} inside the High Tunnel lower the curtains\n The Humidity is {1:0.1f}% inside the High Tunnel\n".format(temperature,humidity)
-    else:
+def Main():
+    if args.debug == "Y":
+        print("The Temperature is {0:0.1f} inside the High Tunnel\n".format(temperature))
+        print("The Humidity is {0:0.1f}% inside the High Tunnel\n".format(humidity))
         Body = "The Temperature is {0:0.1f} inside the High Tunnel\n The Humidity is {1:0.1f}% inside the High Tunnel\n".format(temperature,humidity)
-    #SendMail(To,Subject,Body)
+        #SendMail(To,Subject,Body)
+    else:
+        if temperature > Max:
+            Body = "The Temperature is {0:0.1f} inside the High Tunnel raise the curtains\n The Humidity is {1:0.1f}% inside the High Tunnel\n".format(temperature,humidity)
+        elif temperature < Min:
+            #temperature = '{0:0.1f}'.format(temperature)
+            Body = "The Temperature is {0:0.1f} inside the High Tunnel lower the curtains\n The Humidity is {1:0.1f}% inside the High Tunnel\n".format(temperature,humidity)
+        else:
+            Body = "The Temperature is {0:0.1f} inside the High Tunnel\n The Humidity is {1:0.1f}% inside the High Tunnel\n".format(temperature,humidity)
+            print(Body)
+            exit()
+        #SendMail(To,Subject,Body)
+    SendMail(To,Subject,Body,USERNAME,PASSWORD)
+    CreateDataFile(temperature,humidity)
 
-SendMail(To,Subject,Body,USERNAME,PASSWORD)
-CreateDataFile(temperature,humidity)
+Main()
+#SendMail(To,Subject,Body,USERNAME,PASSWORD)
+#CreateDataFile(temperature,humidity)
 
