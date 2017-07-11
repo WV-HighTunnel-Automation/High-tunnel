@@ -44,7 +44,7 @@ def CreateDataFile(temperature,humidity):
     target = open(OutputFile, 'a')
     Now = time.strftime("%d/%m/%Y %I:%M:%S")
     toutput = (" - The Temperature is {0:0.1f} inside the High Tunnel\n".format(temperature)) 
-    houtput = (" - The Humidity is {1:0.1f}% inside the High Tunnel\n".format(humidity))
+    houtput = (" - The Humidity is {0:0.1f}% inside the High Tunnel\n".format(humidity))
     target.write(Now)
     target.write(toutput)
     target.write(houtput)
