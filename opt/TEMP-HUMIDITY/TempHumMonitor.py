@@ -47,6 +47,7 @@ def CreateDataFile(temperature,humidity):
     houtput = (" - The Humidity is {0:0.1f}% inside the High Tunnel\n".format(humidity))
     target.write(Now)
     target.write(toutput)
+    target.write(Now)
     target.write(houtput)
     target.close
 
