@@ -43,9 +43,11 @@ OutputFile = config.get('THSENSOR', 'output')
 def CreateDataFile(temperature,humidity):
     target = open(OutputFile, 'a')
     Now = time.strftime("%d/%m/%Y %I:%M:%S")
-    output = (" - The Temperature is {0:0.1f} inside the High Tunnel : The Humidity is {1:0.1f}% inside the High Tunnel\n".format(temperature,humidity))
+    toutput = (" - The Temperature is {0:0.1f} inside the High Tunnel\n".format(temperature)) 
+    houtput = (" - The Humidity is {1:0.1f}% inside the High Tunnel\n".format(humidity))
     target.write(Now)
-    target.write(output)
+    target.write(toutput)
+    target.write(houtput)
     target.close
 
 def Main():
