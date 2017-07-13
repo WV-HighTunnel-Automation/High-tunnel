@@ -11,6 +11,8 @@ sys.path.append("/opt/PYTHON_LIBRARIES")
 from Farm import *
 import argparse
 from configparser import ConfigParser
+import logging
+import logging.handlers
 
 
 
@@ -39,10 +41,13 @@ temperature,humidity = GetTempHumidity(Type,Pin,)
 USERNAME = config.get('EMAILS', 'username')
 PASSWORD = config.get('EMAILS', 'password')
 OutputFile = config.get('THSENSOR', 'output')
+ToutputFile = config.get('THSENSOR', 'toutput')
 
 def CreateDataFile(temperature,humidity):
     target = open(OutputFile, 'a')
+    Ttarget = open(ToutputFile, 'a')
     Now = time.strftime("%d/%m/%Y %I:%M:%S")
+    TempHumidity = ("{0:0.1f},{1:0.1f}%". format(temperature,humidity))
     toutput = (" - The Temperature is {0:0.1f} inside the High Tunnel\n".format(temperature)) 
     houtput = (" - The Humidity is {0:0.1f}% inside the High Tunnel\n".format(humidity))
     target.write(Now)
@@ -50,6 +55,8 @@ def CreateDataFile(temperature,humidity):
     target.write(Now)
     target.write(houtput)
     target.close
+    Ttarget.write(TempHumidity)
+    Ttarget.close
 
 def Main():
     if args.debug == "Y":
